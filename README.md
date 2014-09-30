@@ -19,3 +19,5 @@ lazy.map(ItemSparse.class).get(102248).dump();
 lazy.map(SpellEffect.class).get(5221).dump();
 ```
 
+###Supported Files
+https://github.com/adraffy/wardbc/tree/master/src/wardbc/lazy/rows
