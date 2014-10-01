@@ -57,6 +57,9 @@ public class DBC {
             this.rowSize = rowSize;
             this.row0 = row0;
         }
+        public void dump() {
+            System.out.println(this);
+        }
         @Override
         public String toString() {
             return String.format("Format(%s) Columns(%d) Rows(%d) RowSize(%d) Row0(%d)", format, colCount, rowCount, rowSize, row0);

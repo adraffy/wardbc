@@ -8,7 +8,7 @@ public class SpellData extends LazyRowId {
     
     public String name;
     public String rank;
-    public String description;
+    public String desc;
     public String tooltip;
     public int id_rune_cost;	
     public int id_missile;

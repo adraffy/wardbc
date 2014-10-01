@@ -1,6 +1,7 @@
 package wardbc.lazy;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -23,8 +24,21 @@ public class LazyDBC {
         this.dbcDir = dbcDir;
     }
     
-    public Path getFile(Class<? extends LazyRow> cls) {
+    public Path getFilePath(Class<? extends LazyRow> cls) {
         return dbcDir.resolve(getFileName(cls));
+    }
+    
+    public byte[] getFileBytes(Class<? extends LazyRow> cls) {
+        Path f = getFilePath(cls);
+        try {
+            return Files.readAllBytes(f);            
+        } catch (IOException err) {
+            throw new UncheckedIOException("Unable to read " + cls + ": " + f, err);
+        }
+    }
+    
+    public DBC.Header getHeader(Class<? extends LazyRow> cls) {
+        return DBC.header(getFileBytes(cls));     
     }
     
     public void dump(Class<? extends LazyRow> cls) {
@@ -32,27 +46,25 @@ public class LazyDBC {
     }
     
     public <K,V extends LazyRow<K>> TreeMap<K,V> map(Class<? extends V> cls) {  
-        Path file = getFile(cls);
-        try {
-            TreeMap<K,V> map = new TreeMap<>();           
-            remap(Files.readAllBytes(file), map, cls);            
-            return map;
-        } catch (IOException err) {
-            throw new RuntimeException("Unable to load " + cls + ": " + file, err);
-        }        
+        TreeMap<K,V> map = new TreeMap<>();           
+        remap(getFileBytes(cls), map, cls);            
+        return map; 
     }
         
     public <V extends LazyRow> ArrayList<V> list(Class<? extends V> cls) {
-        Path file = getFile(cls);
-        try {
-            byte[] buf = Files.readAllBytes(file);
-            DBC.Header hdr = DBC.header(buf);
-            ArrayList<V> list = new ArrayList<>(hdr.rowCount); // aw yiss
-            populate(buf, cls, list::add);   
-            return list;
-        } catch (IOException err) {
-            throw new RuntimeException("Unable to load " + cls + ": " + file, err);
-        }  
+        byte[] data = getFileBytes(cls);
+        DBC.Header hdr = DBC.header(data);
+        ArrayList<V> list = new ArrayList<>(hdr.rowCount);
+        populate(data, cls, list::add);   
+        return list;
+    }
+    
+    public <V extends LazyRow> V[] array(Class<? extends V> cls) {
+        byte[] data = getFileBytes(cls);
+        DBC.Header hdr = DBC.header(data);
+        ArrayList<V> list = new ArrayList<>(hdr.rowCount);
+        populate(data, cls, list::add);                 
+        return list(cls).toArray((V[])java.lang.reflect.Array.newInstance(cls, hdr.rowCount));
     }
     
     // ---
@@ -158,6 +170,35 @@ public class LazyDBC {
         } 
     };
     
+    static private final FieldType BYTE_ARRAY = new FieldType() {
+        @Override
+        void decode(Object obj, Field field, ByteBuffer bb, StringReader sp) throws IllegalAccessException {
+            byte[] arr = (byte[])field.get(obj);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = bb.get();
+            }  
+            //bb.get(arr);
+        }   
+        @Override
+        String toString(Object obj, Field field) throws IllegalAccessException {
+            return Arrays.toString((byte[])field.get(obj));
+        }   
+    };
+    
+    static private final FieldType SHORT_ARRAY = new FieldType() {
+        @Override
+        void decode(Object obj, Field field, ByteBuffer bb, StringReader sp) throws IllegalAccessException {
+            short[] arr = (short[])field.get(obj);
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = bb.getShort();
+            }
+        }   
+        @Override
+        String toString(Object obj, Field field) throws IllegalAccessException {
+            return Arrays.toString((short[])field.get(obj));
+        }   
+    };
+    
     static private final FieldType INT_ARRAY = new FieldType() {
         @Override
         void decode(Object obj, Field field, ByteBuffer bb, StringReader sp) throws IllegalAccessException {
@@ -219,6 +260,10 @@ public class LazyDBC {
                         decoderType = FLOAT;
                     } else if (type == String.class) {
                         decoderType = STRING;
+                    } else if (type == byte[].class || type == Byte[].class) {
+                        decoderType = BYTE_ARRAY;
+                    } else if (type == short[].class || type == Short[].class) {
+                        decoderType = SHORT_ARRAY;
                     } else if (type == int[].class || type == Integer[].class) {
                         decoderType = INT_ARRAY;
                     } else if (type == float[].class || type == Float[].class) {
