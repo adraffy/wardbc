@@ -18,12 +18,12 @@ public class SpellItemEnchantment extends LazyRowId {
           ( 'id_scaling', '%2d' ), ( 'unk_15464_3', '%2d' ), ( 'coeff_1', '%7.4f' ), ( 'coeff_2', '%7.4f' ), ( 'coeff_3', '%7.4f' ),
     */
 
-    static public final int MAX = 3;
+    static public final int N = 3;
     
     public int charges;
-    public final int[] typeId = new int[MAX];
-    public final int[] value = new int[MAX];
-    public final int[] propId = new int[MAX];
+    public final int[] typeId = new int[N];
+    public final int[] value = new int[N];
+    public final int[] propId = new int[N];
     public String desc;
     public int auraId;
     public int slot; //32: 1710, 0: 1652, 33: 240, 1: 80, 3: 13, 9: 14
@@ -36,7 +36,7 @@ public class SpellItemEnchantment extends LazyRowId {
     public int scalingPerLevel;
     public int scalingId;
     public int unk_15464_3;    
-    public final float[] coeff = new float[MAX];
+    public final float[] coeff = new float[N];
     
     
 }

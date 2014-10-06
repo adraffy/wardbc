@@ -2,7 +2,7 @@ package wardbc.lazy.rows;
 
 import wardbc.lazy.LazyRowId;
 
-public class SpellLevel extends LazyRowId {
+public class SpellLevels extends LazyRowId {
 
     static public final String FILE = "SpellLevels.dbc";
     

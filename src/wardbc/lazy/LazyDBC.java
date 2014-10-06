@@ -244,7 +244,7 @@ public class LazyDBC {
                         }
                         continue;
                     }
-                    if (f.getName().startsWith("__")) {
+                    if (f.getName().startsWith("_")) {
                         continue;
                     }
                     Object dummyValue = f.get(dummy);

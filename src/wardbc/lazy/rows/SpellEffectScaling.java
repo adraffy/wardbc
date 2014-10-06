@@ -11,4 +11,9 @@ public class SpellEffectScaling extends LazyRowId {
     public float bonus;
     public int id_effect;
     
+    @Override
+    public Integer getPrimaryKey() {
+        return id_effect; // this is better :p
+    }
+    
 }
