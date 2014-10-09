@@ -24,8 +24,8 @@ public class SpellData extends LazyRowId {
     public int id_equip_items;
     public int id_interrupts;
     public int id_levels;
-    public int id_power;
-    public int id_reagents;
+    public int id_reagents; // these swapped places
+    public int id_power; // need to check this one
     public int id_shapeshift;
     public int id_tgt_rest;
     public int id_totems;

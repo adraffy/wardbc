@@ -10,7 +10,7 @@ public class ItemData extends LazyRowId {
     public int itemFlag1;
     public int itemFlag2;
     public int unk_14732;
-    public float unk_14732_2;
+    public int unk_14732_2;
     public int unk_14890;
     public int unk_16173; // BuyCount?
     public int buyPrice;
