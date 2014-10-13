@@ -6,13 +6,14 @@ import com.antistupid.wardbc.lazy.rows.RulesetItemUpgrade;
 import com.antistupid.wardbc.lazy.rows.RandPropPoints;
 import java.nio.file.Paths;
 import com.antistupid.wardbc.lazy.LazyDBC;
+import com.antistupid.wardbc.lazy.rows.*;
 
 public class Main {
 
     static public void main(String[] args) {
       
         LazyDBC lazy = new LazyDBC(Paths.get("/Users/raffy/Desktop/DBFilesClient"));
- 
+        
         lazy.list(RulesetItemUpgrade.class).stream().filter(x -> x.upgradeId <= 380).forEach(System.out::println);
         /*
         id(373) chainId(89) itemLevelDelta(4) prevId(0) currencyId(396) currencyCost(75000)

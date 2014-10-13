@@ -11,7 +11,7 @@ public class FileData extends LazyRowId {
     
     public String fileNameWithoutExtension() {
         int pos = name.indexOf('.');
-        return pos >= 0 ? name.substring(0, pos) : name;
+        return (pos >= 0 ? name.substring(0, pos) : name).toLowerCase();
     }
     
 }
