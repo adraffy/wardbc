@@ -14,7 +14,7 @@ public class ItemArmorTotal extends LazyRowId {
    m_plate; // +0x14, size 0x4, type 3
     */
     
-    public int id_hide;
+    public int _id;
     public float[] value = new float[4];
     
     

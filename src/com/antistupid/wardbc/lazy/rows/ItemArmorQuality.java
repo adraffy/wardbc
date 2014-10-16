@@ -7,7 +7,7 @@ public class ItemArmorQuality extends LazyRowId {
     static public final String FILE = "ItemArmorQuality.dbc";
     
     public final float[] value = new float[7];
-    public int id_hide;
+    public int _id;
     
     /*
     FloatField("poor"),

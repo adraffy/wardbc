@@ -97,7 +97,7 @@ public class LazyDBC {
             this.field = field;
             this.type = type;
             this.size = size;
-            hidden = field.getName().endsWith("_hide"); // Kappa!
+            hidden = field.getName().startsWith("_"); // improved
         }
         /*
         String toString(Object obj) throws IllegalAccessException {
@@ -238,13 +238,13 @@ public class LazyDBC {
             List<F> list = list0.subList(0, 0);
             for (Field f: fields) {                            
                 try {
-                    if ((f.getModifiers() & java.lang.reflect.Modifier.STATIC) != 0) {
+                    if (java.lang.reflect.Modifier.isStatic(f.getModifiers())) { // & java.lang.reflect.Modifier.STATIC) != 0) {
                         if (cls == cls0 && f.getName().equals("FILE")) {
                             fileName = (String)f.get(null);
                         }
                         continue;
                     }
-                    if (f.getName().startsWith("_")) {
+                    if (!java.lang.reflect.Modifier.isPublic(f.getModifiers())) { //f.getName().startsWith("_") || 
                         continue;
                     }
                     Object dummyValue = f.get(dummy);

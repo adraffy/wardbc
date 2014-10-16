@@ -6,7 +6,7 @@ public class ItemArmorShield extends LazyRowId {
 
     static public final String FILE = "ItemArmorShield.dbc";
     
-    public int id_hide;    
+    public int _id;    
     public float[] value = new float[7];
     
 }

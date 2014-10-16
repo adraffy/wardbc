@@ -23,8 +23,8 @@ public class ItemData extends LazyRowId {
     public int reqSkill;
     public int reqSkillRank;
     public int reqSpellId;
-    public int reqHonorRank_hide; // always zero
-    public int reqCityRank_hide; // always zero
+    public int _reqHonorRank; // always zero
+    public int _reqCityRank; // always zero
     public int reqRepId;
     public int reqRepRank;
     public int maxCount;

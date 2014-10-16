@@ -9,7 +9,7 @@ public class SpellEquippedItems extends LazyRowId {
     //public int[] wut = new int[5];
 
     public int spellId; // ?
-    public int alwaysZero_hide; // int alwaysZero_hide;
+    public int _unk; // alwaysZero
     public int itemClass; // 2 == weapon, 4 == armor, 15 = mount
     public int equipMask;
     public int weaponOrArmorMask;

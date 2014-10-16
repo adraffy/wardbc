@@ -7,7 +7,7 @@ abstract public class ItemDamage extends LazyRowId {
     static public final int N = 7;
     
     public float[] value = new float[N];
-    public int id_hide; // same as id
+    public int _id; // same as id
     
     static public class TwoHand extends ItemDamage {
         static public final String FILE = "ItemDamageTwoHand.dbc";
